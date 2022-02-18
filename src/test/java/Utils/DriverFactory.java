@@ -8,12 +8,16 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeTest;
 
+import javax.swing.*;
+
 public class DriverFactory {
     static WebDriver driver;
 
-    public static WebDriver open(String browser)
+    public static WebDriver open()
     {
-
+        String[] options = {"Chrome","Firefox"};
+        String browser = (String) JOptionPane.showInputDialog(null, "Pick a browser:",
+                "Browsers", JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
         var workingDirectory = System.getProperty("user.dir");//creating a new file instance
         var filename = workingDirectory+"\\Drivers\\";
@@ -21,15 +25,13 @@ public class DriverFactory {
         if(browser.equalsIgnoreCase("chrome"))
         {
             WebDriverManager.chromedriver().setup();
-            //System.setProperty("webdriver.chrome.driver",filename + "chromedriver.exe");
             return  new ChromeDriver();
         }
         else
         {
+            WebDriverManager.firefoxdriver().setup();
+            return  new FirefoxDriver();
 
-            System.setProperty("webdriver.gecko.driver",filename+"geckodriver.exe");
-            driver.manage().window().maximize();
-            return new FirefoxDriver();
         }
     }
 
